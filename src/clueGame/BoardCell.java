@@ -4,6 +4,7 @@ public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
+	private DoorDirection opensWhichWay;
 	
 	public BoardCell() {
 		// TODO Auto-generated constructor stub
@@ -22,21 +23,21 @@ public class BoardCell {
 	}
 	
 	public int getRow() {
-		return 0;
+		return row;
 	}
 
 	public int getColumn() {
-		return 0;
+		return column;
 	}
 
 	public DoorDirection getDoorDirection() {
 		// TODO Auto-generated method stub
-		return null;
+		return opensWhichWay;
 	}
 
 	public char getInitial() {
 		// TODO Auto-generated method stub
-		return ' ';
+		return initial;
 	}
 	
 }

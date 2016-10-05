@@ -1,0 +1,6 @@
+We changed the legend check to Pewter, Vermillion, Celadon, and Saffron City Gyms along with tail.
+The Pewter City Gym has a door opening to the right.
+The Cerulean City Gym has a door opening to the left.
+The Cinnabar Island Gym has a door opening up.
+The Viridian City Gym has a door opening down.
+We have 21 doorways.
