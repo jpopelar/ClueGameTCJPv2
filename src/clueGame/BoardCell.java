@@ -28,5 +28,15 @@ public class BoardCell {
 	public int getColumn() {
 		return 0;
 	}
+
+	public DoorDirection getDoorDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public char getInitial() {
+		// TODO Auto-generated method stub
+		return ' ';
+	}
 	
 }

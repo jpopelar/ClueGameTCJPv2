@@ -1,10 +1,10 @@
 package experiment;
 	
-public class BoardCell {
+public class BoardCellExperiment {
 	private int row;
 	private int column;
 
-	public BoardCell(int r, int c) {
+	public BoardCellExperiment(int r, int c) {
 		row = r;
 		column = c;
 	}

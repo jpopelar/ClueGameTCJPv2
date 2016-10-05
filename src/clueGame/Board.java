@@ -3,8 +3,6 @@ package clueGame;
 import java.util.Map;
 import java.util.Set;
 
-import experiment.BoardCell;
-
 public class Board {
 	private static Board theInstance = new Board();
 	private int numRows;
@@ -63,5 +61,25 @@ public class Board {
 	
 	public BoardCell getCell(int r, int c){
 		return null;
+	}
+
+	public void setConfigFiles(String string, String string2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Map<Character, String> getLegend() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getNumRows() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getNumCols() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

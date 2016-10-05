@@ -1,6 +1,6 @@
 P, Pewter City Gym, Card
 W, Cerulean City Gym, Card
-V, Vermilion City Gym, Card
+V, Vermillion City Gym, Card
 C, Celadon City Gym, Card
 F, Fuchsia City Gym, Card
 S, Saffron City Gym, Card
