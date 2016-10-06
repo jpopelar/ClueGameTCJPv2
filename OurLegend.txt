@@ -1,11 +1,11 @@
 P, Pewter City Gym, Card
-W, Cerulean City Gym, Card
+K, Cerulean City Gym, Card
 V, Vermillion City Gym, Card
 C, Celadon City Gym, Card
 F, Fuchsia City Gym, Card
 S, Saffron City Gym, Card
 M, Cinnabar Island Gym, Card
-N, Viridian City Gym, Card
+D, Viridian City Gym, Card
 I, Indigo Plateau, Card
-X, Home, Other
-T, Trail, Other
+X, Closet, Other
+W, Walkway, Other

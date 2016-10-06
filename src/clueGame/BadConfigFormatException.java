@@ -1,9 +1,16 @@
 package clueGame;
 
-public class BadConfigFormatException {
+public class BadConfigFormatException extends Exception{
 
 	public BadConfigFormatException() {
-		// TODO Auto-generated constructor stub
+		
 	}
+
+
+	public BadConfigFormatException(String arg0) {
+		super(arg0);
+		
+	}
+
 
 }

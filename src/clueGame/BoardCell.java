@@ -1,25 +1,45 @@
 package clueGame;
 
+import java.util.Map;
+
 public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
 	private DoorDirection opensWhichWay;
 	
-	public BoardCell() {
-		// TODO Auto-generated constructor stub
+	
+
+	public BoardCell(int row, int column, char initial, DoorDirection opensWhichWay) {
+		super();
+		this.row = row;
+		this.column = column;
+		this.initial = initial;
+		this.opensWhichWay = opensWhichWay;
 	}
 
 	public boolean isWalkway(){
-		return false;
+		if(initial == 'W') {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean isRoom(){
-		return false;
+		if(initial != 'W') {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean isDoorway(){
-		return false;
+		if (getDoorDirection() != DoorDirection.NONE) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public int getRow() {
@@ -39,5 +59,6 @@ public class BoardCell {
 		// TODO Auto-generated method stub
 		return initial;
 	}
+	
 	
 }

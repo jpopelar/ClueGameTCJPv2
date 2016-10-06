@@ -1,11 +1,12 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
-
-import experiment.BoardCellExperiment;
 
 
 public class Board {
@@ -22,28 +23,82 @@ public class Board {
 	private String roomConfigFile;
 	
 	private Board() {
-		initialize();
 	}
 
 	public static Board getInstance(){
 		return theInstance;
 	}
 	
-	public void initialize(){
+	public void initialize() {
 		adjMatrix = new HashMap<>();
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
-		board = new BoardCell[numRows][numColumns];
-		createGrid();
-		calcAdjacencies();
-	}
-	
-	public void loadRoomConfig(){
+		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
+		rooms = new HashMap<Character, String>();
+		try {
+			loadBoardConfig();
+			loadRoomConfig();
+			calcAdjacencies();
+		} catch (FileNotFoundException e) {
+			System.out.println("Uhhhh Ohhhhhh");
+		} catch (BadConfigFormatException f) {
+			System.out.println(f.getLocalizedMessage());
+		}
 		
 	}
 	
-	public void loadBoardConfig(){
+	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException{
+		FileReader reader = new FileReader(roomConfigFile);
+		Scanner in = new Scanner(reader);
+		while (in.hasNextLine()) {
+			String Line = in.nextLine();
+			String[] roomInfo = Line.split(", ");
+			if (!(roomInfo[2].equals("Card") || roomInfo[2].equals("Other"))) {
+				throw new BadConfigFormatException("Not a Card or Other, Check Legend");
+			}
+			else {
+				char character = roomInfo[0].charAt(0);
+				String room = roomInfo[1];
+				
+				rooms.put(character, room);
+			}
+		}
+	}
+	
+	public void loadBoardConfig() throws FileNotFoundException{
+		numRows = 0;
+		numColumns = 0;
 		
+		FileReader reader = new FileReader(boardConfigFile);
+		Scanner in = new Scanner(reader);
+		while (in.hasNextLine()) {
+			String Line = in.nextLine();
+			for (String roomString: Line.split(",")) {
+				char roomInit = roomString.charAt(0);
+				if (roomString.length() == 2) {
+					char door = roomString.charAt(1);
+					switch (door) {
+					case 'U':
+						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.UP);
+						break;
+					case 'D':
+						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.DOWN);
+						break;
+					case 'L':
+						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.LEFT);
+						break;
+					case 'R':
+						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.RIGHT);
+						break;
+					}
+				} else {
+					board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.NONE);
+				}
+				numColumns = numColumns + 1;
+			}
+			numColumns = 0;
+			numRows = numRows + 1;
+		}
 	}
 	
 	public void calcAdjacencies(){
@@ -52,10 +107,6 @@ public class Board {
 				adjMatrix.put(board[i][j], getAdjList(board[i][j]));
 			}
 		}
-	}
-	
-	public void createGrid(){
-	
 	}
 	
 	public void calcTargets(BoardCell startCell, int pathLength){
@@ -114,12 +165,11 @@ public class Board {
 	}
 
 	public void setConfigFiles(String string, String string2) {
-		// TODO Auto-generated method stub
-		
+		boardConfigFile = string;
+		roomConfigFile = string2;
 	}
 
 	public Map<Character, String> getLegend() {
-		// TODO Auto-generated method stub
 		return rooms;
 	}
 
