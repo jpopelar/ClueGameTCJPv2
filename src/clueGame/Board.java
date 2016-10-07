@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class Board {
 	private Set<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
+	private String exceptionsLog = "exceptionsLog.txt";
 	
 	private Board() {
 		adjMatrix = new HashMap<>();
@@ -42,7 +44,14 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			System.out.println("Uhhhh Ohhhhhh");
 		} catch (BadConfigFormatException f) {
+			try {
 			System.out.println(f.getMessage());
+			PrintWriter out = new PrintWriter(exceptionsLog);
+			out.println(f.getMessage());
+			out.close();
+			} catch (FileNotFoundException g) {
+				System.out.println("Log file not found.");
+			}
 		}
 		
 	}
