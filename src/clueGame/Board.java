@@ -122,16 +122,16 @@ public class Board {
 	public void calcAdjacencies(){
 		for(int i = 0;i < numRows;i++){
 			for(int j = 0;j < numColumns;j++){
-				adjMatrix.put(board[i][j], getAdjList(board[i][j]));
+				adjMatrix.put(board[i][j], getAdjList(i,j));
 			}
 		}
 	}
 	
-	public void calcTargets(BoardCell startCell, int pathLength){
+	public void calcTargets(int i, int j, int pathLength){
 		visited.clear();
 		targets.clear();
-		visited.add(board[startCell.getRow()][startCell.getColumn()]);
-		findAllTargets(startCell, pathLength);
+		visited.add(board[i][j]);
+		findAllTargets(getCellAt(i,j), pathLength);
 	}
 	
 	public void findAllTargets(BoardCell startCell, int pathLength){
@@ -153,10 +153,8 @@ public class Board {
 		return targets;
 	}
 	
-	public Set<BoardCell> getAdjList(BoardCell cell){
+	public Set<BoardCell> getAdjList(int i, int j){
 		Set<BoardCell> adjSet = new HashSet<BoardCell>();
-		int i = cell.getRow();
-		int j = cell.getColumn();
 				if((i + 1 >= 0) && (j >= 0) && (i + 1 < numRows) && (j < numColumns)){
 					adjSet.add(board[i +1][j]);
 				}
@@ -175,7 +173,8 @@ public class Board {
 				adjSet.remove(currentCell);
 			}
 		}
-		return adjSet;
+		//return adjSet;
+		return null;
 	}
 	
 	public BoardCell getCellAt(int r, int c){
