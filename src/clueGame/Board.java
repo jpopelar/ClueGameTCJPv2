@@ -23,6 +23,11 @@ public class Board {
 	private String roomConfigFile;
 	
 	private Board() {
+		adjMatrix = new HashMap<>();
+		visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
+		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
+		rooms = new HashMap<Character, String>();
 	}
 
 	public static Board getInstance(){
@@ -30,14 +35,10 @@ public class Board {
 	}
 	
 	public void initialize() {
-		adjMatrix = new HashMap<>();
-		visited = new HashSet<BoardCell>();
-		targets = new HashSet<BoardCell>();
-		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
-		rooms = new HashMap<Character, String>();
+		
 		try {
-			loadBoardConfig();
 			loadRoomConfig();
+			loadBoardConfig();
 		} catch (FileNotFoundException e) {
 			System.out.println("Uhhhh Ohhhhhh");
 		} catch (BadConfigFormatException f) {
@@ -58,16 +59,16 @@ public class Board {
 			else {
 				char character = roomInfo[0].charAt(0);
 				String room = roomInfo[1];
-				
+				System.out.println(character + " " + room);
 				rooms.put(character, room);
 			}
 		}
 	}
 	
-	public void loadBoardConfig() throws FileNotFoundException{
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException{
 		numRows = 0;
 		numColumns = 0;
-		
+		int lastColumn = 0;
 		FileReader reader = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(reader);
 		while (in.hasNextLine()) {
@@ -75,7 +76,10 @@ public class Board {
 			numColumns = 0;
 			for (String roomString: Line.split(",")) {
 				char roomInit = roomString.charAt(0);
-				if (roomString.length() == 2) {
+				System.out.println(roomInit);
+				if(!rooms.containsKey(roomInit)){
+					throw new BadConfigFormatException("Invalid board space Initial");
+				} else if (roomString.length() == 2) {
 					char door = roomString.charAt(1);
 					switch (door) {
 					case 'U':
@@ -90,12 +94,20 @@ public class Board {
 					case 'R':
 						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.RIGHT);
 						break;
+					case 'N':
+						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.NONE);
+						break;
 					}
 				} else {
 					board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.NONE);
 				}
 				numColumns = numColumns + 1;
 			}
+			if((numColumns != lastColumn) && (numRows != 0)){
+				throw new BadConfigFormatException("Different number of columns per row");
+			}
+			lastColumn = numColumns;
+			
 			numRows = numRows + 1;
 		}
 	}

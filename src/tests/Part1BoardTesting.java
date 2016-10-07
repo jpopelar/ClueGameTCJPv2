@@ -96,7 +96,7 @@ public class Part1BoardTesting {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		Assert.assertEquals(21, numDoors);
+		Assert.assertEquals(23, numDoors);
 	}
 
 	// Test a few room cells to ensure the room initial is correct.
