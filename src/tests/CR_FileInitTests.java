@@ -55,8 +55,6 @@ public class CR_FileInitTests {
 	@Test
 	public void testBoardDimensions() {
 		// Ensure we have the proper number of rows and columns
-		System.out.println("Rows: " + board.getNumRows());
-		System.out.println("Cols: " + board.getNumColumns());
 		assertEquals(NUM_ROWS, board.getNumRows());
 		assertEquals(NUM_COLUMNS, board.getNumColumns());		
 	}

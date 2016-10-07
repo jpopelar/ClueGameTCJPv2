@@ -42,7 +42,7 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			System.out.println("Uhhhh Ohhhhhh");
 		} catch (BadConfigFormatException f) {
-			System.out.println(f.getLocalizedMessage());
+			System.out.println(f.getMessage());
 		}
 		
 	}
@@ -59,7 +59,6 @@ public class Board {
 			else {
 				char character = roomInfo[0].charAt(0);
 				String room = roomInfo[1];
-				System.out.println(character + " " + room);
 				rooms.put(character, room);
 			}
 		}
@@ -76,7 +75,6 @@ public class Board {
 			numColumns = 0;
 			for (String roomString: Line.split(",")) {
 				char roomInit = roomString.charAt(0);
-				System.out.println(roomInit);
 				if(!rooms.containsKey(roomInit)){
 					throw new BadConfigFormatException("Invalid board space Initial");
 				} else if (roomString.length() == 2) {

@@ -35,8 +35,6 @@ public class BoardCell {
 	}
 	
 	public boolean isDoorway(){
-		System.out.println(opensWhichWay);
-		System.out.println(row + " " + column);
 		if (opensWhichWay != DoorDirection.NONE) {
 			return true;
 		} else {
