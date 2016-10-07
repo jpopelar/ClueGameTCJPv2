@@ -98,7 +98,7 @@ public class CR_FileInitTests {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		System.out.println("Doors: " + numDoors);
+		
 		Assert.assertEquals(16, numDoors);
 	}
 

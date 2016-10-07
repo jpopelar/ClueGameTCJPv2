@@ -38,7 +38,6 @@ public class Board {
 		try {
 			loadBoardConfig();
 			loadRoomConfig();
-			calcAdjacencies();
 		} catch (FileNotFoundException e) {
 			System.out.println("Uhhhh Ohhhhhh");
 		} catch (BadConfigFormatException f) {
@@ -73,6 +72,7 @@ public class Board {
 		Scanner in = new Scanner(reader);
 		while (in.hasNextLine()) {
 			String Line = in.nextLine();
+			numColumns = 0;
 			for (String roomString: Line.split(",")) {
 				char roomInit = roomString.charAt(0);
 				if (roomString.length() == 2) {
@@ -96,7 +96,6 @@ public class Board {
 				}
 				numColumns = numColumns + 1;
 			}
-			numColumns = 0;
 			numRows = numRows + 1;
 		}
 	}
