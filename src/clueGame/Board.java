@@ -155,26 +155,34 @@ public class Board {
 	
 	public Set<BoardCell> getAdjList(int i, int j){
 		Set<BoardCell> adjSet = new HashSet<BoardCell>();
-				if((i + 1 >= 0) && (j >= 0) && (i + 1 < numRows) && (j < numColumns)){
-					adjSet.add(board[i +1][j]);
-				}
-				
-				if((i - 1 >= 0) && (j >= 0) && (i -1 < numRows) && (j < numColumns)){
-					adjSet.add(board[i - 1][j]);
-				}
-				if((i >= 0) && (j + 1 >= 0) && (i < numRows) && (j + 1 < numColumns)){
-					adjSet.add(board[i][j + 1]);
-				}
-				if((i >= 0) && (j - 1 >= 0) && (i < numRows) && (j - 1 < numColumns)){
-					adjSet.add(board[i][j - 1]);
-				}
+		if((i + 1 >= 0) && (j >= 0) && (i + 1 < numRows) && (j < numColumns)){
+			if(getCellAt(i + 1, j).isWalkway()){
+				adjSet.add(board[i +1][j]);
+			}
+		}
+		
+		if((i - 1 >= 0) && (j >= 0) && (i -1 < numRows) && (j < numColumns)){
+			if(getCellAt(i - 1, j).isWalkway()){
+				adjSet.add(board[i - 1][j]);
+			}
+		}
+		if((i >= 0) && (j + 1 >= 0) && (i < numRows) && (j + 1 < numColumns)){
+			if(getCellAt(i, j + 1).isWalkway()){
+				adjSet.add(board[i][j + 1]);
+			}
+		}
+		if((i >= 0) && (j - 1 >= 0) && (i < numRows) && (j - 1 < numColumns)){
+			if(getCellAt(i, j - 1).isWalkway()){
+				adjSet.add(board[i][j - 1]);
+			}
+		}
 		for(BoardCell currentCell : adjSet){
 			if(visited.contains(currentCell)){
 				adjSet.remove(currentCell);
 			}
 		}
-		//return adjSet;
-		return null;
+		return adjSet;
+	
 	}
 	
 	public BoardCell getCellAt(int r, int c){
