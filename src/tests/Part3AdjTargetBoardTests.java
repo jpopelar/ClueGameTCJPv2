@@ -210,20 +210,23 @@ public class Part3AdjTargetBoardTests {
 	public void testTargetsFourSteps() {
 		board.calcTargets(21, 13, 4);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(5, targets.size());
+		assertEquals(6, targets.size());
 		assertTrue(targets.contains(board.getCellAt(17, 13)));
 		assertTrue(targets.contains(board.getCellAt(18, 14)));
 		assertTrue(targets.contains(board.getCellAt(19, 15)));
 		assertTrue(targets.contains(board.getCellAt(20, 14)));
 		assertTrue(targets.contains(board.getCellAt(21, 15)));
+		assertTrue(targets.contains(board.getCellAt(19, 13)));
 		
 		// Includes a path that doesn't have enough length
 		board.calcTargets(15, 0, 4);
 		targets= board.getTargets();
-		assertEquals(3, targets.size());
+		System.out.println(targets);
+		assertEquals(4, targets.size());
 		assertTrue(targets.contains(board.getCellAt(15, 4)));
 		assertTrue(targets.contains(board.getCellAt(16, 3)));	
-		assertTrue(targets.contains(board.getCellAt(16, 1)));		
+		assertTrue(targets.contains(board.getCellAt(16, 1)));
+		assertTrue(targets.contains(board.getCellAt(15, 2)));
 	}	
 	
 	// Tests of just walkways plus one door, 6 steps
@@ -233,7 +236,7 @@ public class Part3AdjTargetBoardTests {
 	public void testTargetsSixSteps() {
 		board.calcTargets(15, 0, 6);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(9, targets.size());
+		assertEquals(8, targets.size());
 		assertTrue(targets.contains(board.getCellAt(16, 1)));
 		assertTrue(targets.contains(board.getCellAt(15, 2)));	
 		assertTrue(targets.contains(board.getCellAt(16, 5)));	
@@ -241,7 +244,6 @@ public class Part3AdjTargetBoardTests {
 		assertTrue(targets.contains(board.getCellAt(15, 4)));	
 		assertTrue(targets.contains(board.getCellAt(15, 6)));	
 		assertTrue(targets.contains(board.getCellAt(14, 5)));
-		assertTrue(targets.contains(board.getCellAt(15, 5)));
 		assertTrue(targets.contains(board.getCellAt(16, 3)));
 	}	
 	

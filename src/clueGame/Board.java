@@ -37,7 +37,6 @@ public class Board {
 	}
 	
 	public void initialize() {
-		
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
@@ -53,6 +52,7 @@ public class Board {
 				System.out.println("Log file not found.");
 			}
 		}
+		calcAdjacencies();
 		
 	}
 	
@@ -137,7 +137,7 @@ public class Board {
 	public void findAllTargets(BoardCell startCell, int pathLength){
 		for(BoardCell adjCell : adjMatrix.get(startCell)){
 			if(!visited.contains(adjCell)){
-				if(pathLength == 1){
+				if((pathLength == 1) || adjCell.isDoorway()){
 					targets.add(adjCell);
 				}
 				else{
@@ -155,25 +155,89 @@ public class Board {
 	
 	public Set<BoardCell> getAdjList(int i, int j){
 		Set<BoardCell> adjSet = new HashSet<BoardCell>();
-		if((i + 1 >= 0) && (j >= 0) && (i + 1 < numRows) && (j < numColumns)){
-			if(getCellAt(i + 1, j).isWalkway()){
-				adjSet.add(board[i +1][j]);
-			}
-		}
-		
-		if((i - 1 >= 0) && (j >= 0) && (i -1 < numRows) && (j < numColumns)){
-			if(getCellAt(i - 1, j).isWalkway()){
+		if(getCellAt(i, j).isRoom() && !getCellAt(i, j).isDoorway()){
+			
+		}else if(getCellAt(i,j).isDoorway()){
+			DoorDirection whichWay = getCellAt(i,j).getDoorDirection();
+			switch(whichWay){
+			case UP:
 				adjSet.add(board[i - 1][j]);
-			}
-		}
-		if((i >= 0) && (j + 1 >= 0) && (i < numRows) && (j + 1 < numColumns)){
-			if(getCellAt(i, j + 1).isWalkway()){
-				adjSet.add(board[i][j + 1]);
-			}
-		}
-		if((i >= 0) && (j - 1 >= 0) && (i < numRows) && (j - 1 < numColumns)){
-			if(getCellAt(i, j - 1).isWalkway()){
+				break;
+			case LEFT:
 				adjSet.add(board[i][j - 1]);
+				break;
+			case RIGHT:
+				adjSet.add(board[i][j + 1]);
+				break;
+			case DOWN:
+				adjSet.add(board[i + 1][j]);
+				break;
+			}
+		}else{
+			if((i + 1 >= 0) && (j >= 0) && (i + 1 < numRows) && (j < numColumns)){
+				if(getCellAt(i + 1, j).isWalkway()){
+					adjSet.add(board[i +1][j]);
+				}else if(getCellAt(i + 1, j).isDoorway()){
+					DoorDirection whichWay = getCellAt(i + 1, j).getDoorDirection();
+					switch(whichWay){
+					case UP:
+						adjSet.add(board[i +1][j]);
+						break;
+					case LEFT:
+					case RIGHT:
+					case DOWN:
+						break;
+					}
+				}
+			}
+			
+			if((i - 1 >= 0) && (j >= 0) && (i -1 < numRows) && (j < numColumns)){
+				if(getCellAt(i - 1, j).isWalkway()){
+					adjSet.add(board[i - 1][j]);
+				}else if(getCellAt(i - 1, j).isDoorway()){
+					DoorDirection whichWay = getCellAt(i - 1, j).getDoorDirection();
+					switch(whichWay){
+					case DOWN:
+						adjSet.add(board[i - 1][j]);
+						break;
+					case LEFT:
+					case RIGHT:
+					case UP:
+						break;
+					}
+				}
+			}
+			if((i >= 0) && (j + 1 >= 0) && (i < numRows) && (j + 1 < numColumns)){
+				if(getCellAt(i, j + 1).isWalkway()){
+					adjSet.add(board[i][j + 1]);
+				}else if(getCellAt(i, j + 1).isDoorway()){
+					DoorDirection whichWay = getCellAt(i, j + 1).getDoorDirection();
+					switch(whichWay){
+					case LEFT:
+						adjSet.add(board[i][j + 1]);
+						break;
+					case UP:
+					case RIGHT:
+					case DOWN:
+						break;
+					}
+				}
+			}
+			if((i >= 0) && (j - 1 >= 0) && (i < numRows) && (j - 1 < numColumns)){
+				if(getCellAt(i, j - 1).isWalkway()){
+					adjSet.add(board[i][j - 1]);
+				}else if(getCellAt(i, j - 1).isDoorway()){
+					DoorDirection whichWay = getCellAt(i,j - 1).getDoorDirection();
+					switch(whichWay){
+					case RIGHT:
+						adjSet.add(board[i][j - 1]);
+						break;
+					case LEFT:
+					case UP:
+					case DOWN:
+						break;
+					}
+				}
 			}
 		}
 		for(BoardCell currentCell : adjSet){

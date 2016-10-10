@@ -1,7 +1,5 @@
 package clueGame;
 
-import java.util.Map;
-
 public class BoardCell {
 	private int row;
 	private int column;
@@ -59,6 +57,13 @@ public class BoardCell {
 		// TODO Auto-generated method stub
 		return initial;
 	}
+
+	@Override
+	public String toString() {
+		return "BoardCell [row=" + row + ", column=" + column + ", initial=" + initial + ", opensWhichWay="
+				+ opensWhichWay + "]";
+	}
+
 	
 	
 }
