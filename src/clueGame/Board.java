@@ -159,6 +159,7 @@ public class Board {
 		findAllTargets(getCellAt(i,j), pathLength);
 	}
 	
+	//
 	public void findAllTargets(BoardCell startCell, int pathLength){
 		for(BoardCell adjCell : adjMatrix.get(startCell)){
 			if(!visited.contains(adjCell)){
