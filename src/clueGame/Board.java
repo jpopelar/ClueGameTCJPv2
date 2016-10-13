@@ -80,39 +80,65 @@ public class Board {
 		calcAdjacencies();
 	}
 	
-	// 
+	// load the room legend from the configuration file
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException{
+		// open a file reader for roomConfigFile and open scanner
 		FileReader reader = new FileReader(roomConfigFile);
 		Scanner in = new Scanner(reader);
+		// read the configuration file while there are lines in the file
 		while (in.hasNextLine()) {
+			// read the next line
 			String Line = in.nextLine();
+			// split the line at the "," and save the segments to an array
 			String[] roomInfo = Line.split(", ");
+			// if the third string in the array is not "Card" or "Other"
+			// it is a bad format and must through an exception
 			if (!(roomInfo[2].equals("Card") || roomInfo[2].equals("Other"))) {
+				// Throw a BadConfigFormatException for legend
 				throw new BadConfigFormatException("Not a Card or Other, Check Legend");
 			}
+			// else put the character and room info in the room map
 			else {
+				// assign the character for the room
 				char character = roomInfo[0].charAt(0);
+				// assign the name for the room
 				String room = roomInfo[1];
+				// add the character and name to the room map
 				rooms.put(character, room);
 			}
 		}
 	}
 	
+	// load the board configuration from the given configuration file
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException{
+		// assign an initial value to the number of rows
 		numRows = 0;
+		// assign an initial value to the number of columns
 		numColumns = 0;
+		// create a variable to record the last column number
 		int lastColumn = 0;
+		// open a file reader for the board configuration file, and open the scanner
 		FileReader reader = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(reader);
+		// read the configuration file while there are lines in the file
 		while (in.hasNextLine()) {
+			// read the next line
 			String Line = in.nextLine();
+			// re-initialize the value for the number of columns to 0
 			numColumns = 0;
+			// Separate the characters in the line at the "," and iterate through each character set
 			for (String roomString: Line.split(",")) {
+				// Store the first character in the set into the variable for the room initial
 				char roomInit = roomString.charAt(0);
+				// if the character is not in the room legend, throw an exception
 				if(!rooms.containsKey(roomInit)){
+					// throw a BadConfigFormatException saying there is an invalid character in the boad configuration
 					throw new BadConfigFormatException("Invalid board space Initial");
+				// if there are two characters in this character segment
 				} else if (roomString.length() == 2) {
+					// assign the second character (the door direction) into a variable
 					char door = roomString.charAt(1);
+					// Add a door direction to the current board cell (using column count and row count)
 					switch (door) {
 					case 'U':
 						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.UP);
@@ -130,46 +156,69 @@ public class Board {
 						board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.NONE);
 						break;
 					}
+				// else make the door direction for the current cell (using the column count and row count) none
 				} else {
 					board[numRows][numColumns] = new BoardCell(numRows,numColumns,roomInit,DoorDirection.NONE);
 				}
+				// increment the column count
 				numColumns = numColumns + 1;
 			}
+			// if the final number of columns in the current row does not match the number of columns
+			// in the last row, and it isn't the first row, throw an exception
 			if((numColumns != lastColumn) && (numRows != 0)){
+				// Throw a BadConfigFormatException as the number of columns differs per row
 				throw new BadConfigFormatException("Different number of columns per row");
 			}
+			// assign the current column count to the variable to store the last column count
 			lastColumn = numColumns;
 			
+			// increment the row count
 			numRows = numRows + 1;
 		}
 	}
 	
+	// calculate the adjacent cells for each cell on the board
 	public void calcAdjacencies(){
+		// for all the rows
 		for(int i = 0;i < numRows;i++){
+			// for all the columns
 			for(int j = 0;j < numColumns;j++){
+				// calculate the adjacent cells at the cell listed
 				adjMatrix.put(board[i][j], getAdjList(i,j));
 			}
 		}
 	}
 	
+	// calculate the targets for a given cell location and path length
 	public void calcTargets(int i, int j, int pathLength){
+		// clear the visited list
 		visited.clear();
+		// clear the target list
 		targets.clear();
+		// add the current cell to the visited list
 		visited.add(board[i][j]);
+		// find all the targets for the given cell and path length
 		findAllTargets(getCellAt(i,j), pathLength);
 	}
 	
-	//
+	// method to find all the targets for a path, takes start cell and moves left
 	public void findAllTargets(BoardCell startCell, int pathLength){
+		// loop through the cells adjacent to the current cell
 		for(BoardCell adjCell : adjMatrix.get(startCell)){
+			// if the adjacent cell is not in the visited list
 			if(!visited.contains(adjCell)){
+				// if the cell is a doorway, or there is only one move left
 				if((pathLength == 1) || adjCell.isDoorway()){
+					// add the cell to the target list
 					targets.add(adjCell);
 				}
+				// else add the current cell to the visited list and 
+				// call the function again with one less move on the pathlength
 				else{
 					visited.add(adjCell);
 					findAllTargets(adjCell, pathLength - 1);
 				}
+				// remove the adjacent cell from the visited list
 				visited.remove(adjCell);
 			}
 		}
