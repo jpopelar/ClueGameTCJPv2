@@ -11,8 +11,10 @@ import experiment.BoardCellExperiment;
 import experiment.IntBoardExperiment;
 
 public class IntBoardTests {
+	// variable for the board
 	IntBoardExperiment board;
 	
+	// before method to set the board 
 	@Before
 	public void setBoard() {
 		board = new IntBoardExperiment();
