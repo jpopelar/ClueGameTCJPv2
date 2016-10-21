@@ -34,6 +34,7 @@ public class gameSetupTests {
 		
 		board.setWeaponFile("TCJPWeapons.txt");
 		board.loadWeaponConfig();
+		board.dealCards();
 	}
 
 	@Test
@@ -111,6 +112,39 @@ public class gameSetupTests {
 		assert(foundPersonString);
 		assert(foundRoomString);
 		assert(foundWeaponString);
+	}
+	
+	@Test
+	public void dealCardsTests() {
+		ArrayList<Player> players = board.getPlayers(); //Get players list
+		Set<Card> deck = board.getDeck(); //Get deck
+		Set<Card> cardsDealt = new HashSet<Card>(); //Make set containing cards dealt out
+
+		for (Player p : players) {
+			Set<Card> theirHand = p.getHand();
+			for (Card c : theirHand) cardsDealt.add(c); //Scan through each player's hand, add their cards to the dealt set
+		}
+
+		assert(deck.equals(cardsDealt)); //Check to make sure the deck and dealt sets are the same, then all cards were dealt
+
+		int normalHandSize = 3;
+		int largeHandSize = 4; //For a 21 card deck, each player's hand will have 3 or 4 cards
+
+		for (Player p : players) assert((p.getHand().size() == normalHandSize) || (p.getHand().size() == largeHandSize)); //Check that for each player's hand		
+
+		//Uniqueness of card test
+		for (Player p : players) { //For each player
+			Set<Card> theirHand = p.getHand(); //Get the cards in their hand
+
+			ArrayList<Player> otherPlayers = players;
+			otherPlayers.remove(p);	//Make a list of all other players
+
+			for (Player o : otherPlayers) {
+				for (Card c : theirHand) { //Cycle through each card in active player's hand
+					assert(!o.getHand().contains(c)); //Ensure that it does not exist in anyone else's
+				}
+			}
+		}
 	}
 
 }

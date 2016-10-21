@@ -2,13 +2,15 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Player {
 	private String playerName;
 	private int row, col;
 	private Color color;
-	private ArrayList<Card> hand;
-	private ArrayList<Card> detNotes;
+	private Set<Card> hand;
+	private Set<Card> detNotes;
 	
 	public Player(String name, int row, int col, Color color) {
 		super();
@@ -16,6 +18,9 @@ public class Player {
 		this.row = row;
 		this.col = col;
 		this.color = color;
+		
+		hand = new HashSet<Card>();
+		detNotes = new HashSet<Card>();
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {
@@ -54,5 +59,9 @@ public class Player {
 
 	public Color getColor() {
 		return color;
+	}
+
+	public Set<Card> getHand() {
+		return hand;
 	}
 }

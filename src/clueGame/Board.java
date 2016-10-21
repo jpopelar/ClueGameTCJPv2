@@ -421,6 +421,10 @@ public class Board {
 	
 	}
 	
+	public void dealCards() {
+		
+	}
+	
 	// Return the cell at the given row and column location
 	public BoardCell getCellAt(int r, int c){
 		return board[r][c];
@@ -463,6 +467,10 @@ public class Board {
 	
 	public Set<Card> getDeck() {
 		return deck;
+	}
+	
+	public int numPlayers() {
+		return players.size();
 	}
 	
 }
