@@ -188,7 +188,7 @@ public class Board {
 	
 	public void loadPeopleConfig(){
 
-	/*	players = new ArrayList<Player>();
+		players = new ArrayList<Player>();
 
 		try {
 			FileReader reader = new FileReader(peopleConfigFile);
@@ -223,7 +223,7 @@ public class Board {
 			}
 		} catch (FileNotFoundException e) {}
 
-		System.out.println(players);	*/
+		System.out.println(players);	
 	}
 	
 	// calculate the adjacent cells for each cell on the board
