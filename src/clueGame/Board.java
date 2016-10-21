@@ -1,8 +1,10 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,11 +31,18 @@ public class Board {
 	// Set to store the target cells for the players move
 	private Set<BoardCell> targets;
 	// 
+	
+	private ArrayList<Player> players;
+	
 	private String boardConfigFile;
 	// 
 	private String roomConfigFile;
-	// 
+	// 	
+	private String peopleConfigFile;
+	
 	private String exceptionsLog = "exceptionsLog.txt";
+	
+	private Solution theAnswer;
 	
 	// constructor to initialize all the arrays, sets, and map variables
 	// It is private so that it is initialize instantly and never changed
@@ -175,6 +184,46 @@ public class Board {
 			// increment the row count
 			numRows = numRows + 1;
 		}
+	}
+	
+	public void loadPeopleConfig(){
+
+	/*	players = new ArrayList<Player>();
+
+		try {
+			FileReader reader = new FileReader(peopleConfigFile);
+			Scanner in = new Scanner(reader);		
+
+			while (in.hasNextLine()) {
+
+				String name;
+				int row, col;
+				Color color = null;
+
+				name = (in.next() + ' ' + in.next());
+
+				row = in.nextInt();
+				col = in.nextInt();
+				try {
+
+					color = (Color) Color.class.getField(in.next().toLowerCase()).get(null);
+
+				} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+
+					System.out.println("Something f'ed up.");
+
+					e.printStackTrace();
+
+				}
+
+				if (players.isEmpty()) players.add(new HumanPlayer(name, row, col, color));
+				else players.add(new ComputerPlayer(name, row, col, color));
+
+
+			}
+		} catch (FileNotFoundException e) {}
+
+		System.out.println(players);	*/
 	}
 	
 	// calculate the adjacent cells for each cell on the board
@@ -378,6 +427,14 @@ public class Board {
 	// return the number of columns on the board
 	public int getNumColumns() {
 		return numColumns;
+	}
+	
+	public void setPeopleFile(String file) {
+		peopleConfigFile = file;
+	}
+	
+	public ArrayList<Player> getPlayers() {
+		return players;
 	}
 	
 }

@@ -22,7 +22,7 @@ public class BoardCell {
 
 	// determine if cell is a walkway
 	public boolean isWalkway(){
-		if(initial == 'W') {
+		if(Character.toLowerCase(initial) == 'w') { //Refactored
 			return true;
 		} else {
 			return false;
@@ -31,7 +31,7 @@ public class BoardCell {
 	
 	// Determine if the cell is a room
 	public boolean isRoom(){
-		if(initial != 'W') {
+		if(Character.toLowerCase(initial) != 'w') { //Refactored
 			return true;
 		} else {
 			return false;
