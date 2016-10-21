@@ -31,6 +31,7 @@ public class Board {
 	// Set to store the target cells for the players move
 	private Set<BoardCell> targets;
 	// 
+	private Set<Card> deck;
 	
 	private ArrayList<Player> players;
 	
@@ -39,6 +40,8 @@ public class Board {
 	private String roomConfigFile;
 	// 	
 	private String peopleConfigFile;
+	
+	private String weaponConfigFile;
 	
 	private String exceptionsLog = "exceptionsLog.txt";
 	
@@ -52,6 +55,7 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 		rooms = new HashMap<Character, String>();
+		deck = new HashSet<Card>();
 	}
 
 	// method to return the initialized board
@@ -112,6 +116,8 @@ public class Board {
 				char character = roomInfo[0].charAt(0);
 				// assign the name for the room
 				String room = roomInfo[1];
+				// Make a card for that room and slip it in the deck
+				//if (roomInfo[2].equals("Card"))deck.add(new Card(room, CardType.ROOM));
 				// add the character and name to the room map
 				rooms.put(character, room);
 			}
@@ -222,8 +228,22 @@ public class Board {
 
 			}
 		} catch (FileNotFoundException e) {}
-
-		System.out.println(players);	
+		for (int i = 0; i < players.size(); i++) {
+			//deck.add(new Card(players.get(i).getName(), CardType.PERSON));
+		}
+	}
+	
+	
+	public void loadWeaponConfig() {
+//		try {
+//			FileReader reader = new FileReader(weaponConfigFile);
+//			Scanner in = new Scanner(reader);		
+//
+//			while (in.hasNextLine()) {
+//				String weapon = in.nextLine();
+//				deck.add(new Card(weapon, CardType.WEAPON));
+//			}
+//		} catch (FileNotFoundException e) {}
 	}
 	
 	// calculate the adjacent cells for each cell on the board
@@ -433,8 +453,16 @@ public class Board {
 		peopleConfigFile = file;
 	}
 	
+	public void setWeaponFile(String file) {
+		weaponConfigFile = file;
+	}
+	
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+	
+	public Set<Card> getDeck() {
+		return deck;
 	}
 	
 }

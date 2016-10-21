@@ -5,12 +5,15 @@ import static org.junit.Assert.*;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
+import clueGame.Card;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
@@ -28,10 +31,13 @@ public class gameSetupTests {
 		
 		board.setPeopleFile("TCJPSuspects.txt");
 		board.loadPeopleConfig();
+		
+		board.setWeaponFile("TCJPWeapons.txt");
+		board.loadWeaponConfig();
 	}
 
 	@Test
-	public void playerSetUp() {
+	public void playerSetUp() { //Check that player data is correctly loaded from file
 		//Get player list, make sure the size is good
 		ArrayList<Player> players = board.getPlayers();
 		assertEquals(players.size(), 6);
@@ -59,6 +65,52 @@ public class gameSetupTests {
 		assertEquals(compPlayer2.getCol(), 10);
 		assertEquals(compPlayer2.getColor(), Color.green);
 		
+	}
+	
+	@Test
+	public void makeDeck() { //Check that deck is built properly and has everything we need
+		Set<Card> deck = board.getDeck();
+		
+		assertEquals(deck.size(), 21); //Check deck size
+		
+		int rooms = 0;
+		int people = 0;
+		int weapons = 0;
+		
+		for (Card c : deck) { //For loop counts up the number of each type of card in deck
+			switch (c.getType()) {
+			case PERSON:
+				people++;
+				break;
+			case ROOM:
+				rooms++;
+				break;
+			case WEAPON:
+				weapons++;
+				break;
+			default:
+			}
+		}
+		//Check results
+		assertEquals(rooms, 9);
+		assertEquals(people, 6);
+		assertEquals(weapons, 6);
+		
+		boolean foundRoomString = false;
+		boolean foundWeaponString = false;
+		boolean foundPersonString = false;
+
+		for (Card c : deck) { //For loop that cycles through deck and finds individual cards
+			String cardName = c.getName();
+			
+			if (cardName.equals("Spike Spiegel")) foundPersonString = true; //Individual person
+			if (cardName.equals("Patio")) foundRoomString = true; //Individual room
+			if (cardName.equals("Dominator")) foundWeaponString = true; //Individual weapon
+		}
+		//Check results
+		assert(foundPersonString);
+		assert(foundRoomString);
+		assert(foundWeaponString);
 	}
 
 }
