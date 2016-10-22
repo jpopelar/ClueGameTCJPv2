@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -422,7 +423,25 @@ public class Board {
 	}
 	
 	public void dealCards() {
+		int cardsDealt = 0; //Stores cards dealt
+		Set<Card> library = new HashSet<Card>(deck); //Duplicate of deck which we'll deal to players
+		Random rand = new Random(); 
 		
+		while (!library.isEmpty()) { //While the deck isn't empty
+			int cardToDeal = rand.nextInt() % library.size(); //Randomly generate an index of card to deal
+			Player playerToDeal = players.get(cardsDealt % numPlayers()); //Determine who's next to get a card
+			
+			int i = 0; //Unofficial index for cycling through library
+			for (Card c : library) {
+				if (i == cardToDeal) { //Once we find the card matching the index
+					playerToDeal.giveCard(c); //Give it out
+					library.remove(c); //Remove it from the library 
+					cardsDealt++; //Count up the cards dealt (i.e. move to next player)
+					break; //Go to next deal
+				}
+				i++;
+			}			
+		}		
 	}
 	
 	// Return the cell at the given row and column location

@@ -64,4 +64,8 @@ public class Player {
 	public Set<Card> getHand() {
 		return hand;
 	}
+
+	public void giveCard(Card targetCard) {
+		hand.add(targetCard);
+	}
 }

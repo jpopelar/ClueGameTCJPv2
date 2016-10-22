@@ -126,18 +126,13 @@ public class gameSetupTests {
 		}
 
 		assert(deck.equals(cardsDealt)); //Check to make sure the deck and dealt sets are the same, then all cards were dealt
-
-		int normalHandSize = 3;
-		int largeHandSize = 4; //For a 21 card deck, each player's hand will have 3 or 4 cards
-
-		for (Player p : players) assert((p.getHand().size() == normalHandSize) || (p.getHand().size() == largeHandSize)); //Check that for each player's hand		
-
-		//Uniqueness of card test
+		
+		//Uniqueness of cards test
 		for (Player p : players) { //For each player
 			Set<Card> theirHand = p.getHand(); //Get the cards in their hand
 
-			ArrayList<Player> otherPlayers = players;
-			otherPlayers.remove(p);	//Make a list of all other players
+			ArrayList<Player> otherPlayers = new ArrayList<Player>(players);
+			otherPlayers.remove(p);	//Make a separate list of all other players
 
 			for (Player o : otherPlayers) {
 				for (Card c : theirHand) { //Cycle through each card in active player's hand
@@ -145,6 +140,13 @@ public class gameSetupTests {
 				}
 			}
 		}
+		
+		int normalHandSize = 3;
+		int largeHandSize = 4; //For a 21 card deck, each player's hand will have 3 or 4 cards
+
+		for (Player p : players) assert((p.getHand().size() == normalHandSize) || (p.getHand().size() == largeHandSize)); //Check that for each player's hand		
+
+		
 	}
 
 }
