@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
+	private String lastRoom;
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
-		// TODO Auto-generated constructor stub
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
@@ -20,4 +20,10 @@ public class ComputerPlayer extends Player {
 	public void createSuggestion() {
 		
 	}
+	
+	public void setLastRoom(String lastRoom) {
+		this.lastRoom = lastRoom;
+	}
+	
+	
 }

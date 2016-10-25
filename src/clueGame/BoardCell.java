@@ -75,5 +75,9 @@ public class BoardCell {
 		return "BoardCell [row=" + row + ", column=" + column + ", initial=" + initial + ", opensWhichWay="
 				+ opensWhichWay + "]";
 	}
+	
+	public boolean equals(BoardCell cell) {
+		return ((this.getRow() == cell.getRow()) && (this.getColumn() == cell.getColumn()));
+	}
 
 }

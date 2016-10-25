@@ -248,7 +248,7 @@ public class Board {
 	}
 	
 	public boolean checkAccusation(Solution accusation) {
-		return false;
+		return theAnswer.equals(accusation);
 	}
 	
 	// calculate the adjacent cells for each cell on the board
@@ -497,7 +497,7 @@ public class Board {
 	}
 	
 	public void setSolution(Solution answer) {
-		
+		this.theAnswer = answer;
 	}
 	
 }

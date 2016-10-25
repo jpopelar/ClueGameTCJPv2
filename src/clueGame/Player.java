@@ -33,11 +33,8 @@ public class Player {
 		this.playerName = name;
 	}
 
-	public void setRow(int row) {
+	public void setLocation(int row, int col) {
 		this.row = row;
-	}
-
-	public void setCol(int col) {
 		this.col = col;
 	}
 

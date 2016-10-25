@@ -16,7 +16,6 @@ public class Card {
 	}
 	
 	public String getName() {
-		// TODO Auto-generated method stub
 		return cardName;
 	}
 
