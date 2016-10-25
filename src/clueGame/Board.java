@@ -247,6 +247,10 @@ public class Board {
 		} catch (FileNotFoundException e) {}
 	}
 	
+	public boolean checkAccusation(Solution accusation) {
+		return false;
+	}
+	
 	// calculate the adjacent cells for each cell on the board
 	public void calcAdjacencies(){
 		// for all the rows
@@ -490,6 +494,10 @@ public class Board {
 	
 	public int numPlayers() {
 		return players.size();
+	}
+	
+	public void setSolution(Solution answer) {
+		
 	}
 	
 }
