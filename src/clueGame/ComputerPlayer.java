@@ -8,12 +8,17 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player {
 	private String lastRoom;
+	private static Board board;
+	private Set<Card> detNotes;
+	private Solution suggestion;
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
+		board = board.getInstance();
+		detNotes= new HashSet<Card>(); //Stores unseen cards
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
-		Board board = Board.getInstance();
+		board = Board.getInstance();
 		Map<Character, String> legend = board.getLegend();
 		
 		Set<BoardCell> cat1 = new HashSet<BoardCell>();
@@ -49,13 +54,20 @@ public class ComputerPlayer extends Player {
 		
 	}
 
-	public void createSuggestion() {
-		
+	public Solution createSuggestion() {
+		return null;
 	}
 	
 	public void setLastRoom(String lastRoom) {
 		this.lastRoom = lastRoom;
 	}
 	
+	public void addToNotes(Card theCard) {
+		detNotes.add(theCard);
+	}
+	
+	public void clearNotes() {
+		detNotes.clear();
+	}
 	
 }
