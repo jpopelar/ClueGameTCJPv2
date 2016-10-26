@@ -18,7 +18,7 @@ import clueGame.Solution;
 public class gameActionsTests {
 	
 	private static Board board;
-	public static final int TARGET_RUNS = 30;
+	public static final int TARGET_RUNS = 100;
 	
 	@BeforeClass
 	public static void setUp() {
@@ -57,20 +57,24 @@ public class gameActionsTests {
 		board.calcTargets(cpuPlay.getRow(),cpuPlay.getCol(),1); //Assume a roll of 1 for movement, so no rooms in target list
 		
 		Set<BoardCell> targets = board.getTargets(); //Get target list
+		//System.out.println(targets);
 				
 		boolean got24 = false;
-		boolean got22 = false;
+		boolean got44 = false;
 		boolean got33 = false;
 		
 		for (int i = 0; i < TARGET_RUNS; i++) { //Run a number of target selection, turn on bools as their squares are selected
 			BoardCell targCell = cpuPlay.pickLocation(targets);
+			cpuPlay.setLastRoom("Patio");
 			
 			if (targCell.equals(board.getCellAt(2, 4))) got24 = true;
-			if (targCell.equals(board.getCellAt(2, 2))) got22 = true;
+			if (targCell.equals(board.getCellAt(4, 4))) got44 = true;
 			if (targCell.equals(board.getCellAt(3, 3))) got33 = true;
 		}
 		
-		assert(got22 && got24 && got33); //Check all were selected at some point
+		assert(got44); 
+		assert(got24);
+		assert(got33); //Check all were selected at some point
 		
 		cpuPlay.setLocation(5, 3); //Put one door within range, assume unvisited
 		board.calcTargets(cpuPlay.getRow(),cpuPlay.getCol(),3); //Fix roll of 3
@@ -94,13 +98,17 @@ public class gameActionsTests {
 			BoardCell targCell = cpuPlay.pickLocation(targets);
 			
 			if (targCell.equals(board.getCellAt(3, 4))) got34 = true;
-			if (targCell.equals(board.getCellAt(3, 2))) got32 = true;
+			if (targCell.equals(board.getCellAt(3, 2))) got32 = true; //Gym room door, should be selected randomly without bias
 			if (targCell.equals(board.getCellAt(2, 3))) got23 = true;
 			if (targCell.equals(board.getCellAt(5, 4))) got54 = true;
 			if (targCell.equals(board.getCellAt(4, 3))) got43 = true;
 		}
 		
-		assert(got34 && got32 && got23 && got54 && got43); //Check all were selected at some point
+		assert(got34);
+		assert(got32);
+		assert(got23);
+		assert(got54);
+		assert(got43); //Check all were selected at some point
 		
 		cpuPlay.setLocation(3, 4); //Set location again
 		board.calcTargets(cpuPlay.getRow(),cpuPlay.getCol(),2); //Fix roll of 2, now 2 rooms in range with 1 recently visited
@@ -108,7 +116,7 @@ public class gameActionsTests {
 		targets = board.getTargets();
 		
 		for (int i = 0; i < TARGET_RUNS; i++) {
-			assert(cpuPlay.pickLocation(targets).equals(board.getCellAt(3, 2))); //Ensure the CPU picks the unvisited room
+			assert(cpuPlay.pickLocation(targets).equals(board.getCellAt(2, 5))); //Ensure the CPU picks the unvisited room
 			cpuPlay.setLastRoom(legend.get('G')); //Trick into thinking it visited the gym last
 		}
 	}
