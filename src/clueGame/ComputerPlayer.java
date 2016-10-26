@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -32,7 +33,7 @@ public class ComputerPlayer extends Player {
 		Random rand = new Random();
 		
 		if (!cat1.isEmpty()) {
-			int selection = rand.nextInt() % cat1.size();
+			int selection = rand.nextInt(cat1.size());
 			int i = 0; //Unofficial index for cycling through cat1 set
 			for (BoardCell c : cat1) {
 				if (i == selection) return c;
@@ -40,7 +41,7 @@ public class ComputerPlayer extends Player {
 			}		
 		}
 		
-		int selection = rand.nextInt() % cat2.size();
+		int selection = rand.nextInt(cat2.size());
 		int i = 0; //Unofficial index for cycling through cat2 set
 		for (BoardCell c : cat2) {
 			if (i == selection) return c;
@@ -55,7 +56,36 @@ public class ComputerPlayer extends Player {
 	}
 
 	public Solution createSuggestion() {
-		return null;
+		String room, weapon, person;
+		room = getRoom();
+		
+		ArrayList<Card> weapons = new ArrayList<Card>();
+		ArrayList<Card> people = new ArrayList<Card>();
+		
+		for (Card c : detNotes) {
+			switch (c.getType()) {
+			case PERSON:
+				people.add(c);
+				break;
+			case WEAPON:
+				weapons.add(c);
+				break;
+			default:
+			}
+		}
+		
+		Random rand = new Random();	
+		
+		int selection = rand.nextInt(people.size());
+		person = people.get(selection).getName();
+		
+		selection = rand.nextInt(weapons.size());
+		weapon = weapons.get(selection).getName();
+		
+		suggestion = new Solution(person, weapon, room);
+		System.out.println(suggestion);
+		
+		return suggestion;
 	}
 	
 	public void setLastRoom(String lastRoom) {
@@ -68,6 +98,12 @@ public class ComputerPlayer extends Player {
 	
 	public void clearNotes() {
 		detNotes.clear();
+	}
+	
+	public String getRoom() {
+		Map<Character,String> legend = board.getLegend();
+		
+		return legend.get(board.getCellAt(getRow(), getCol()).getInitial());
 	}
 	
 }

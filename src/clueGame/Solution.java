@@ -15,5 +15,10 @@ public class Solution {
 	public boolean equals(Solution suggestion) {
 		return (this.person.equals(suggestion.person) && this.weapon.equals(suggestion.weapon) && this.room.equals(suggestion.room));
 	}
+
+	@Override
+	public String toString() {
+		return "Solution [person=" + person + ", weapon=" + weapon + ", room=" + room + "]";
+	}
 	
 }
