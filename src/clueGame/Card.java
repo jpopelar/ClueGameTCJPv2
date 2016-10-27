@@ -23,4 +23,10 @@ public class Card {
 	public CardType getType() {
 		return cardType;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Card [cardName=" + cardName + ", cardType=" + cardType + "]";
+	}
 }

@@ -201,10 +201,31 @@ public class gameActionsTests {
 		assert(cpuPlay.disproveSuggestion(sugg3).equals(person1)); //Should return person
 		assert(cpuPlay.disproveSuggestion(sugg4).equals(room1)); //Should return room
 		
-		for (int i = 0; i < TARGET_RUNS; i++) { //Test the two-card matching suggestions return just one card
-			assert(cpuPlay.disproveSuggestion(sugg5).equals(weapon1) || cpuPlay.disproveSuggestion(sugg5).equals(person1));
-			assert(cpuPlay.disproveSuggestion(sugg6).equals(weapon1) || cpuPlay.disproveSuggestion(sugg6).equals(room1));
+		boolean personShow = false;
+		boolean weaponShow = false;
+		
+		for (int i = 0; i < TARGET_RUNS; i++) { //Each card should be selected randomly at least once for sugg5
+			Card objection = cpuPlay.disproveSuggestion(sugg5);
+			
+			if (objection.equals(weapon1)) weaponShow = true;
+			if (objection.equals(person1)) personShow = true;
 		}
+		
+		assert(personShow);
+		assert(weaponShow);
+		
+		weaponShow = false;
+		boolean roomShow = false;
+		
+		for (int i = 0; i < TARGET_RUNS; i++) { //And same deal for sugg6
+			Card objection = cpuPlay.disproveSuggestion(sugg6);
+			
+			if (objection.equals(weapon1)) weaponShow = true;
+			if (objection.equals(room1)) roomShow = true;
+		}
+		
+		assert(roomShow);
+		assert(weaponShow);
 	}
 
 }
