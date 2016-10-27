@@ -452,24 +452,24 @@ public class Board {
 	}
 	
 	public Card handleSuggestion(Solution accusation) {
-		int turnCounter = getTurnCount();
+		int turnCounter = getTurnCount(); //Useful when we go to our for loop
 		
-		Player accuser = players.get(whoseTurn());
+		Player accuser = players.get(whoseTurn()); //Figure out who active player is (accuser)
 		
-		for (int i = turnCounter; i < turnCounter+numPlayers(); i++) {
-			int handToLook = i % numPlayers();
-			Player witness = players.get(handToLook);
-			if (witness.equals(accuser)) continue;
+		for (int i = turnCounter; i < turnCounter+numPlayers(); i++) { //Cycle through each of the players in order of whose turn is next
+			int handToLook = i % numPlayers(); //First, figure out which player we're on
+			Player witness = players.get(handToLook); //Then get their information
+			if (witness.equals(accuser)) continue; //If it's the active player, then skip over them
 			
-			Card evidence = witness.disproveSuggestion(accusation);
-			if (evidence != null) return evidence;
+			Card evidence = witness.disproveSuggestion(accusation); //Otherwise, get them to (try) disprove
+			if (evidence != null) return evidence; //If they can, return that card
 		}
 		
-		return null;
+		return null; //If nobody can disprove, return null
 	}
 	
 	// Return the cell at the given row and column location
-	public BoardCell getCellAt(int r, int c){
+	public BoardCell getCellAt(int r, int c) {
 		return board[r][c];
 	}
 
