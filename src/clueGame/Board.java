@@ -452,6 +452,19 @@ public class Board {
 	}
 	
 	public Card handleSuggestion(Solution accusation) {
+		int turnCounter = getTurnCount();
+		
+		Player accuser = players.get(whoseTurn());
+		
+		for (int i = turnCounter; i < turnCounter+numPlayers(); i++) {
+			int handToLook = i % numPlayers();
+			Player witness = players.get(handToLook);
+			if (witness.equals(accuser)) continue;
+			
+			Card evidence = witness.disproveSuggestion(accusation);
+			if (evidence != null) return evidence;
+		}
+		
 		return null;
 	}
 	
