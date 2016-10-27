@@ -174,5 +174,37 @@ public class gameActionsTests {
 		assert(got3);
 		assert(got4); //Check all were selected at some point
 	}
+	
+	@Test
+	public void testSinglePlayerDisprove() { //Tests a single player disproving a suggestion
+		Card person1 = new Card("Edward Elric", CardType.PERSON);
+		Card weapon1 = new Card("Blood Curse", CardType.WEAPON);
+		Card room1 = new Card("Patio", CardType.ROOM); //Make some cards
+		
+		ComputerPlayer cpuPlay = new ComputerPlayer("Motoko Kusanagi", 24, 3, Color.blue); //Make a CPU player (though a human player would be fine too)
+		
+		cpuPlay.giveCard(room1);
+		cpuPlay.giveCard(person1);
+		cpuPlay.giveCard(weapon1); //Add cards to hand
+		
+		//Make a few test suggestions
+		Solution sugg1 = new Solution("Jotaro Kujo","Dominator","Server Room"); //Matches no cards
+		Solution sugg2 = new Solution("Jotaro Kujo","Blood Curse","Server Room"); //Matches weapon only
+		Solution sugg3 = new Solution("Edward Elric","Dominator","Server Room"); //Matches person only
+		Solution sugg4 = new Solution("Jotaro Kujo","Dominator","Patio"); //Matches room only
+		Solution sugg5 = new Solution("Edward Elric","Blood Curse","Server Room"); //Matches person and weapon
+		Solution sugg6 = new Solution("Jotaro Kujo","Blood Curse","Patio"); //Matches room and weapon
+		
+		assertNull(cpuPlay.disproveSuggestion(sugg1)); //Should return null
+		
+		assert(cpuPlay.disproveSuggestion(sugg2).equals(weapon1)); //Should return weapon
+		assert(cpuPlay.disproveSuggestion(sugg3).equals(person1)); //Should return person
+		assert(cpuPlay.disproveSuggestion(sugg4).equals(room1)); //Should return room
+		
+		for (int i = 0; i < TARGET_RUNS; i++) { //Test the two-card matching suggestions return just one card
+			assert(cpuPlay.disproveSuggestion(sugg5).equals(weapon1) || cpuPlay.disproveSuggestion(sugg5).equals(person1));
+			assert(cpuPlay.disproveSuggestion(sugg6).equals(weapon1) || cpuPlay.disproveSuggestion(sugg6).equals(room1));
+		}
+	}
 
 }

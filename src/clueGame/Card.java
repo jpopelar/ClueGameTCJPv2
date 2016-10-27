@@ -11,8 +11,8 @@ public class Card {
 	}
 
 
-	public boolean equals() {
-		return false;
+	public boolean equals(Card aCard) {
+		return (this.cardName.equals(aCard.getName()) && this.cardType.equals(aCard.getType()));
 	}
 	
 	public String getName() {

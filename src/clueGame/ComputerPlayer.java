@@ -82,9 +82,7 @@ public class ComputerPlayer extends Player {
 		selection = rand.nextInt(weapons.size());
 		weapon = weapons.get(selection).getName();
 		
-		suggestion = new Solution(person, weapon, room);
-		System.out.println(suggestion);
-		
+		suggestion = new Solution(person, weapon, room);		
 		return suggestion;
 	}
 	
