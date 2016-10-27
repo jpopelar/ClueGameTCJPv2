@@ -48,6 +48,8 @@ public class Board {
 	
 	private Solution theAnswer;
 	
+	private int turnCounter;
+	
 	// constructor to initialize all the arrays, sets, and map variables
 	// It is private so that it is initialize instantly and never changed
 	private Board() {
@@ -57,6 +59,7 @@ public class Board {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 		rooms = new HashMap<Character, String>();
 		deck = new HashSet<Card>();
+		turnCounter = 0;
 	}
 
 	// method to return the initialized board
@@ -448,6 +451,10 @@ public class Board {
 		}		
 	}
 	
+	public Card handleSuggestion(Solution accusation) {
+		return null;
+	}
+	
 	// Return the cell at the given row and column location
 	public BoardCell getCellAt(int r, int c){
 		return board[r][c];
@@ -498,6 +505,18 @@ public class Board {
 	
 	public void setSolution(Solution answer) {
 		this.theAnswer = answer;
+	}
+	
+	public void setTurnCount(int turn) {
+		this.turnCounter = turn;
+	}
+	
+	public int getTurnCount() {
+		return turnCounter;
+	}
+	
+	public int whoseTurn() {
+		return turnCounter % numPlayers();
 	}
 	
 }

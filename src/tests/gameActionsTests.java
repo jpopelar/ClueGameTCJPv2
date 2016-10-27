@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -226,6 +227,58 @@ public class gameActionsTests {
 		
 		assert(roomShow);
 		assert(weaponShow);
+	}
+	
+	@Test
+	public void testAllPlayerDisprove() { //Tests disproving algorithm across all players in turn
+		ArrayList<Player> players = new ArrayList<Player>(board.getPlayers()); //We already have a player list from when we made the board in BeforeClass
+		
+		for (int i = 0; i < 3; i++) players.remove(players.size()-1); //Trim player list down to just three players; one human and two CPU
+		
+		Card person1 = new Card("Edward Elric", CardType.PERSON);
+		Card weapon1 = new Card("Blood Curse", CardType.WEAPON);
+		Card room1 = new Card("Patio", CardType.ROOM); //Make some cards for human
+		
+		Card person2 = new Card("Spike Spiegel", CardType.PERSON);
+		Card weapon2 = new Card("Dominator", CardType.WEAPON);
+		Card room2 = new Card("Workshop", CardType.ROOM); //Make some cards for CPU1
+		
+		Card person3 = new Card("Natsuki Subaru", CardType.PERSON);
+		Card weapon3 = new Card("Katana", CardType.WEAPON);
+		Card room3 = new Card("Laboratory", CardType.ROOM); //Make some cards for CPU2
+		
+		players.get(0).giveCard(person1);
+		players.get(0).giveCard(weapon1);
+		players.get(0).giveCard(room1); //Give cards to human
+		
+		players.get(1).giveCard(person2);
+		players.get(1).giveCard(weapon2);
+		players.get(1).giveCard(room2); //Give cards to CPU1
+		
+		players.get(2).giveCard(person3);
+		players.get(2).giveCard(weapon3);
+		players.get(2).giveCard(room3); //Give cards to CPU2
+		
+		board.setTurnCount(1); //Make it CPU1's turn, so he'll be the accuser (suggestor?)
+		
+		Solution noProof = new Solution("Princess Mononoke","Death Note","Observatory"); //Nobody can disprove this
+		assertNull(board.handleSuggestion(noProof));
+		
+		Solution accuserHasProof = new Solution("Jotaro Kujo","Molotov","Workshop"); //CPU1 is the only one who can disprove this
+		assertNull(board.handleSuggestion(accuserHasProof));
+		
+		Solution humanHasProof = new Solution("Edward Elric","Ethernet Cable","Kitchen"); //Human is the only one who can disprove this
+		assert(board.handleSuggestion(humanHasProof).equals(person1));
+		
+		Solution twoHaveProof = new Solution("Edward Elric","Ethernet Cable","Laboratory"); //CPU2 and human can disprove
+		assert(board.handleSuggestion(twoHaveProof).equals(room3)); //CPU2 has next turn, so he should disprove
+		
+		board.setTurnCount(0); //Now it's the human's turn
+		
+		assertNull(board.handleSuggestion(humanHasProof)); //This should return null now
+				
+		Solution twoCPUHaveProof = new Solution("Spike Spiegel","Ethernet Cable","Laboratory"); //CPU1 and CPU2 can disprove
+		assert(board.handleSuggestion(twoCPUHaveProof).equals(person2)); //CPU1 has next turn, so he should disprove
 	}
 
 }

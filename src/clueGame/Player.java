@@ -29,8 +29,6 @@ public class Player {
 		
 		for (Card c : hand) if (c.getName().equals(suggestion.person) || c.getName().equals(suggestion.weapon) || c.getName().equals(suggestion.room)) matchCards.add(c);
 		
-		System.out.println(matchCards);
-		
 		if (matchCards.size() == 0) return null;
 		
 		Random rand = new Random();
