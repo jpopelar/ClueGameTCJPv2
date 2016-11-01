@@ -1,0 +1,6 @@
+Edward Elric 23 10 Red
+Spike Spiegel 12 22 Orange
+Jotaro Kujo 6 0 White
+Princess Mononoke 1 10 Green
+Natsuki Subaru 0 4 Yellow
+Motoko Kusanagi 21 4 Cyan

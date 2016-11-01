@@ -1,0 +1,11 @@
+P, Patio, Card
+R, Workshop, Card
+G, Gym, Card
+K, Kitchen, Card
+S, Server Room, Card
+O, Observatory, Card
+Y, Gallery, Card
+L, Library, Card
+B, Laboratory, Card
+C, Catacombs, Other
+w, Walkway, Other
